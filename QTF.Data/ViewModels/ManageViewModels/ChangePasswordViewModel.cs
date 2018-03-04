@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QTF.Web.Models.ManageViewModels
+namespace QTF.Data.Models.ManageViewModels
 {
     public class ChangePasswordViewModel
     {

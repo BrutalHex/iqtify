@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using QTF.Web.Models;
+using QTF.Data.Models;
 
 namespace QTF.Web.Data
 {

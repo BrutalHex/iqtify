@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QTF.Web.Models.AccountViewModels
+namespace QTF.Data.Models.AccountViewModels
 {
     public class LoginWithRecoveryCodeViewModel
     {

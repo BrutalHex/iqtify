@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using QTF.Web.Models;
-using QTF.Web.Models.ManageViewModels;
+using QTF.Data.Models;
+using QTF.Data.Models.ManageViewModels;
 using QTF.Web.Services;
 
 namespace QTF.Web.Controllers

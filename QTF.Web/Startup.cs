@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QTF.Web.Data;
-using QTF.Web.Models;
+using QTF.Data.Models;
 using QTF.Web.Services;
 
 namespace QTF.Web

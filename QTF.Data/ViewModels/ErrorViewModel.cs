@@ -1,6 +1,4 @@
-using System;
-
-namespace QTF.Web.Models
+namespace QTF.Data.Models
 {
     public class ErrorViewModel
     {

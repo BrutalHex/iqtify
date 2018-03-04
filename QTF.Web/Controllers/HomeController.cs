@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using QTF.Web.Models;
+using QTF.Data.Models;
 
 namespace QTF.Web.Controllers
 {
