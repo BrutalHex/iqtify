@@ -52,8 +52,12 @@
             .attr('name',
             function (i, old) {
                 return old.replace(0, count);
-            }
-            );
+            });
+        newDiv.find("[onclick*='" + 0 + "']")
+            .attr('onclick',
+            function (i, old) {
+                return old.replace(0, count);
+            });
         $(newDiv).appendTo("#container");
         count++;
         });
@@ -81,6 +85,11 @@
                     });
                 $(this).find("[name*='" + currentPosition + "']")
                     .attr('name',
+                    function (i, old) {
+                        return old.replace(currentPosition, j);
+                    });
+                $(this).find("[onclick*='" + currentPosition + "']")
+                    .attr('onclick',
                     function (i, old) {
                         return old.replace(currentPosition, j);
                     });
