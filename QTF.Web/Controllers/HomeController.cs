@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QTF.Data.Models;
 using QTF.Web.Data;
 using QTF.Data.Models.HomeViewModels;
+using QTF.Web.Helpers;
 
 namespace QTF.Web.Controllers
 {
@@ -57,23 +56,24 @@ namespace QTF.Web.Controllers
         [HttpPost]
         public IActionResult Question(QuestionViewModel model)
         {
+            Quiz quiz = null;
             if (!ModelState.IsValid)
             {
-                var lQuiz = _context.Quizes
+                quiz = _context.Quizes
                                 .Include(q => q.Questions)
                                 .ThenInclude(qw => qw.Answers)
                                 .SingleOrDefault(row => row.Id == model.QuizId);
-                if (lQuiz.Questions == null || lQuiz.Questions.Count() == 0)
+                if (quiz.Questions == null || quiz.Questions.Count() == 0)
                 {
                     return RedirectToAction(nameof(Error));
                 }
-                var question = lQuiz.Questions.ElementAt(model.CurrentQuestion);
+                var question = quiz.Questions.ElementAt(model.CurrentQuestion);
                 var lAnswers = question.Answers.Select(a => a.Value).ToArray();
                 lAnswers.Shuffle();
                 var lVm = new QuestionViewModel
                 {
                     Title = question.Content,
-                    IsLastQuestion = lQuiz.Questions.Count() == 1,
+                    IsLastQuestion = quiz.Questions.Count() == 1,
                     Answers = lAnswers,
                     QuizId = model.QuizId,
                     CorrectAnswers = model.CorrectAnswers,
@@ -81,7 +81,7 @@ namespace QTF.Web.Controllers
                 };
                 return View(lVm);
             }
-            var quiz = _context.Quizes
+            quiz = _context.Quizes
                             .Include(q => q.Questions)
                             .ThenInclude(qw => qw.Answers)
                             .SingleOrDefault(row => row.Id == model.QuizId);
@@ -123,7 +123,7 @@ namespace QTF.Web.Controllers
             {
                 return RedirectToAction(nameof(Error));
             }
-            var questionList = new List<QuestionViewModel>();
+
             QuizViewModel model = new QuizViewModel
             {
                 Id = quiz.Id,
@@ -152,7 +152,7 @@ namespace QTF.Web.Controllers
             {
                 return View(model);
             }
-            List<Question> questions = new List<Question>();
+
             Quiz newQuiz = new Quiz
             {
                 Name = model.Title,
@@ -279,25 +279,6 @@ namespace QTF.Web.Controllers
                 chance = correctAnswersCount / submittedAnsversCount;
             }
             return correctness * chance;
-        }
-
-    }
-
-    public static class Shafler
-    {
-        private static Random random = new Random();
-
-        public static void Shuffle<T>(this IList<T> list)
-        {
-            int n = list.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = random.Next(n + 1);
-                T value = list[k];
-                list[k] = list[n];
-                list[n] = value;
-            }
         }
     }
 }
