@@ -23,6 +23,7 @@
                                 Is correct
                             </label>
                         </div>
+                        <button class="btn btn-danger" type="button" onclick="remove(@i)">Remove</button>
                     </div>
                 }
             </div>
@@ -32,7 +33,6 @@
 </div>
 
 @section Scripts{
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
     var count = $("#container>div").length;
     var div = $("#container")
@@ -56,7 +56,37 @@
             );
         $(newDiv).appendTo("#container");
         count++;
-    });
+        });
+
+        function remove(idx) {
+            var newDiv = $("#answer-" + idx);
+            newDiv.remove();
+
+            var answers = $("#container>div");
+            count = answers.length;
+            var j = 0;
+            var currentPosition;
+            answers.each(function () {
+                $(this).attr('id', function (i, old) {
+                    currentPosition = old.substring(old.lastIndexOf('-') + 1);
+                });
+                $(this).attr('id',
+                    function (i, old) {
+                        return old.replace(currentPosition, j);
+                    });
+                $(this).find("[id*='" + currentPosition + "']")
+                    .attr('id',
+                    function (i, old) {
+                        return old.replace(currentPosition, j);
+                    });
+                $(this).find("[name*='" + currentPosition + "']")
+                    .attr('name',
+                    function (i, old) {
+                        return old.replace(currentPosition, j);
+                    });
+                j++;
+            });
+        }
 
     </script>
 }
