@@ -11,21 +11,52 @@
         <div class="form-group">
             <label asp-for="Title"></label>
             <input class="form-control" asp-for="Title" placeholder="Write title for new question" />
-        </div>
-        @for (int i = 0; i < Model.Answers.Count(); i++)
-        {
-            <div class="form-group">
-                <label>Answer</label>
-                <textarea class="form-control" asp-for="@Model.Answers[i].Text" placeholder="Answer goes here"></textarea>
-                <div class="checkbox">
-                    <label>
-                        <input class="checkbox" type="checkbox" asp-for="@Model.Answers[i].Correct" />
-                        Is correct
-                    </label>
-                </div>
+            <div id="container">
+                @for (int i = 0; i < Model.Answers.Count(); i++)
+                {
+                    <div class="form-group" id="answer-@i">
+                        <label>Answer</label>
+                        <textarea class="form-control" asp-for="@Model.Answers[i].Text" placeholder="Answer goes here"></textarea>
+                        <div class="checkbox">
+                            <label>
+                                <input class="checkbox" type="checkbox" asp-for="@Model.Answers[i].Correct" />
+                                Is correct
+                            </label>
+                        </div>
+                    </div>
+                }
             </div>
-        }
-        <button type="submit" class="btn btn-lg btn-primary">Add question</button>
-        <button type="submit" class="btn btn-lg btn-default" asp-route-addAnswer="true">Add answer</button>
+            <button type="submit" class="btn btn-lg btn-primary">Add question</button>
+            <button type="button" class="btn btn-lg btn-default" id="add">Add answer</button>
     </form>
 </div>
+
+@section Scripts{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+    var count = $("#container>div").length;
+    var div = $("#container")
+        .find("[id='answer-0']").clone();
+    $('#add').click(function () {
+        var newDiv = div.clone();
+        newDiv.attr('id',
+            function (i, old) {
+                return old.replace(0, count);
+            });
+        newDiv.find("[id*='" + 0 + "']")
+            .attr('id',
+            function (i, old) {
+                return old.replace(0, count);
+            });
+        newDiv.find("[name*='" + 0 + "']")
+            .attr('name',
+            function (i, old) {
+                return old.replace(0, count);
+            }
+            );
+        $(newDiv).appendTo("#container");
+        count++;
+    });
+
+    </script>
+}

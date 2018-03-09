@@ -192,7 +192,7 @@ namespace QTF.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddQuestion(CreateQuestionViewModel question, [FromQuery]bool addAnswer = false)
+        public IActionResult AddQuestion(CreateQuestionViewModel question)
         {
             if (!ModelState.IsValid)
             {
@@ -202,12 +202,6 @@ namespace QTF.Web.Controllers
             if (question.Answers.Where(ans => ans.Correct == true).Count() == 0)
             {
                 ModelState.AddModelError("", "At least one answer should be coorect!");
-                return View(question);
-            }
-
-            if (addAnswer)
-            {
-                question.Answers.Add(new AnswerViewModel());
                 return View(question);
             }
 
