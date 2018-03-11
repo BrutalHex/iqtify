@@ -15,6 +15,10 @@ namespace QTF.Web.Data
         {
         }
 
+        public DbSet<Quiz> Quizes { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<QuestionAnswer> Answers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

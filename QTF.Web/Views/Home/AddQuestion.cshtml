@@ -1,0 +1,101 @@
+﻿@model CreateQuestionViewModel
+@{
+    ViewData["Title"] = "Add Question";
+}
+
+<div>
+    <h2>Add Question</h2>
+    <form asp-action="AddQuestion" asp-antiforgery="true">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <input hidden asp-for="QuizId" />
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input class="form-control" asp-for="Title" placeholder="Write title for new question" />
+            <div id="container">
+                @for (int i = 0; i < Model.Answers.Count(); i++)
+                {
+                    <div class="form-group" id="answer-@i">
+                        <label>Answer</label>
+                        <textarea class="form-control" asp-for="@Model.Answers[i].Text" placeholder="Answer goes here"></textarea>
+                        <div class="checkbox">
+                            <label>
+                                <input class="checkbox" type="checkbox" asp-for="@Model.Answers[i].Correct" />
+                                Is correct
+                            </label>
+                        </div>
+                        <button class="btn btn-danger" type="button" onclick="remove(@i)">Remove</button>
+                    </div>
+                }
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary">Add question</button>
+            <button type="button" class="btn btn-lg btn-default" id="add">Add answer</button>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+    var count = $("#container>div").length;
+    var div = $("#container")
+        .find("[id='answer-0']").clone();
+    $('#add').click(function () {
+        var newDiv = div.clone();
+        newDiv.attr('id',
+            function (i, old) {
+                return old.replace(0, count);
+            });
+        newDiv.find("[id*='" + 0 + "']")
+            .attr('id',
+            function (i, old) {
+                return old.replace(0, count);
+            });
+        newDiv.find("[name*='" + 0 + "']")
+            .attr('name',
+            function (i, old) {
+                return old.replace(0, count);
+            });
+        newDiv.find("[onclick*='" + 0 + "']")
+            .attr('onclick',
+            function (i, old) {
+                return old.replace(0, count);
+            });
+        $(newDiv).appendTo("#container");
+        count++;
+        });
+
+        function remove(idx) {
+            var newDiv = $("#answer-" + idx);
+            newDiv.remove();
+
+            var answers = $("#container>div");
+            count = answers.length;
+            var j = 0;
+            var currentPosition;
+            answers.each(function () {
+                $(this).attr('id', function (i, old) {
+                    currentPosition = old.substring(old.lastIndexOf('-') + 1);
+                });
+                $(this).attr('id',
+                    function (i, old) {
+                        return old.replace(currentPosition, j);
+                    });
+                $(this).find("[id*='" + currentPosition + "']")
+                    .attr('id',
+                    function (i, old) {
+                        return old.replace(currentPosition, j);
+                    });
+                $(this).find("[name*='" + currentPosition + "']")
+                    .attr('name',
+                    function (i, old) {
+                        return old.replace(currentPosition, j);
+                    });
+                $(this).find("[onclick*='" + currentPosition + "']")
+                    .attr('onclick',
+                    function (i, old) {
+                        return old.replace(currentPosition, j);
+                    });
+                j++;
+            });
+        }
+
+    </script>
+}
