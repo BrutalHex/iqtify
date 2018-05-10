@@ -17,6 +17,7 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace QTF.Web
 {
@@ -54,6 +55,9 @@ namespace QTF.Web
                 options.TokenEndpoint = "https://github.com/login/oauth/access_token";
                 options.UserInformationEndpoint = "https://api.github.com/user";
                 options.SaveTokens = true;
+
+                options.Scope.Add("user:email");
+
                 options.Events = new OAuthEvents
                 {
                     OnCreatingTicket = async context => { await CreatingGitHubAuthTicket(context); }
@@ -90,7 +94,7 @@ namespace QTF.Web
 
         private static async Task CreatingGitHubAuthTicket(OAuthCreatingTicketContext context)
         {
-            // Get the GitHub user
+            //TODO: Refactor to avoid code duplications
             var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -100,24 +104,45 @@ namespace QTF.Web
 
             var user = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-            AddClaims(context, user);
+            request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint + "/emails");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            response = await context.Backchannel.SendAsync(request, context.HttpContext.RequestAborted);
+            response.EnsureSuccessStatusCode();
+
+            var emails = JArray.Parse(await response.Content.ReadAsStringAsync());
+            
+            AddClaims(context, user, emails);
         }
 
-        private static void AddClaims(OAuthCreatingTicketContext context, JObject user)
+        private static void AddClaims(OAuthCreatingTicketContext context, JObject user, JArray emails)
         {
-            var identifier = user.Value<string>("id");
-            if (!string.IsNullOrEmpty(identifier))
-            {
-                context.Identity.AddClaim(new Claim(
-                    ClaimTypes.NameIdentifier, identifier,
-                    ClaimValueTypes.String, context.Options.ClaimsIssuer));
-            }
-
             var userName = user.Value<string>("login");
             if (!string.IsNullOrEmpty(userName))
             {
                 context.Identity.AddClaim(new Claim(
                     ClaimsIdentity.DefaultNameClaimType, userName,
+                    ClaimValueTypes.String, context.Options.ClaimsIssuer));
+            }
+
+            foreach (JObject email in emails.Children<JObject>())
+            {
+                bool isPrimary = email.Value<bool>("primary");
+                if (isPrimary)
+                {
+                    var emailVale = email.Value<string>("email");
+                    context.Identity.AddClaim(new Claim(
+                        ClaimTypes.Email, emailVale,
+                        ClaimValueTypes.Email, context.Options.ClaimsIssuer));
+                }
+            }
+
+            var identifier = user.Value<string>("id");
+            if (!string.IsNullOrEmpty(identifier))
+            {
+                context.Identity.AddClaim(new Claim(
+                    ClaimTypes.NameIdentifier, identifier,
                     ClaimValueTypes.String, context.Options.ClaimsIssuer));
             }
 
