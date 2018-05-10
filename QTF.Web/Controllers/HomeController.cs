@@ -22,6 +22,12 @@ namespace QTF.Web.Controllers
 
         public IActionResult Index()
         {
+            var users = _context.Users.Select(u => u.UserName).ToList();
+            return View(users);
+        }
+
+        public IActionResult QuizHome()
+        {
             var quizes = _context.Quizes.Include(q => q.Questions);
             return View(quizes);
         }
@@ -32,7 +38,7 @@ namespace QTF.Web.Controllers
                 .Include(q => q.Questions)
                 .ThenInclude(qw => qw.Answers)
                 .SingleOrDefault(row => row.Id == quizId);
-            if (quiz.Questions == null || quiz.Questions.Count() == 0)
+            if (quiz.Questions == null || !quiz.Questions.Any())
             {
                 return RedirectToAction(nameof(Error));
             }
@@ -128,7 +134,7 @@ namespace QTF.Web.Controllers
             {
                 Id = quiz.Id,
                 Title = quiz.Description,
-                HasQuestions = quiz.Questions == null ? false : quiz.Questions.Count() > 0
+                HasQuestions = quiz.Questions != null && quiz.Questions.Any()
             };
             return View(model);
         }
