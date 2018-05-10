@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using QTF.Data.Models;
 using QTF.Data.Models.AccountViewModels;
+using QTF.Data.ViewModels.AccountViewModels;
 using QTF.Web.Services;
 
 namespace QTF.Web.Controllers
@@ -220,7 +221,7 @@ namespace QTF.Web.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -289,10 +290,26 @@ namespace QTF.Web.Controllers
             }
             else
             {
+                var userName = info.Principal.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                var user = new ApplicationUser { UserName = userName, Email = email };
+                var identityResult = await _userManager.CreateAsync(user);
+                if (identityResult.Succeeded)
+                {
+                    identityResult = await _userManager.AddLoginAsync(user, info);
+                    if (identityResult.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                
                 return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
             }
         }
@@ -310,7 +327,7 @@ namespace QTF.Web.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

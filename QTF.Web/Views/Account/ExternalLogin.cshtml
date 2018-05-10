@@ -1,4 +1,5 @@
-﻿@model ExternalLoginViewModel
+﻿@using QTF.Data.ViewModels.AccountViewModels
+@model QTF.Data.ViewModels.AccountViewModels.ExternalLoginViewModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -17,6 +18,11 @@
     <div class="col-md-4">
         <form asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" />
