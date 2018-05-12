@@ -45,7 +45,7 @@ namespace QTF.Web
 
             services.AddMvc();
 
-            services.AddAuthentication().AddOAuth("GitHubAuth", options =>
+            services.AddAuthentication().AddOAuth("GitHubAuth", "Log in with GitHub", options =>
             {
                 options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
                 options.CallbackPath = new PathString("/signin-github");
