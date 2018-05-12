@@ -12,9 +12,10 @@ using System;
 namespace QTF.Web.Data.Migrations
 {
     [DbContext(typeof(QtfDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180512191452_UserAnswer_QuestionTask")]
+    partial class UserAnswer_QuestionTask
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
