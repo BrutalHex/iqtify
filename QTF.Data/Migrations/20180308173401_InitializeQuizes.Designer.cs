@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using QTF.Data.Models;
 using QTF.Web.Data;
 using System;
+using QTF.Data;
 
 namespace QTF.Web.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(QtfDbContext))]
     [Migration("20180308173401_InitializeQuizes")]
     partial class InitializeQuizes
     {

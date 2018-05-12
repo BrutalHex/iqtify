@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QTF.Data;
 using QTF.Data.Models;
 using QTF.Web.Data;
 using QTF.Data.Models.HomeViewModels;
@@ -13,9 +14,9 @@ namespace QTF.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly QtfDbContext _context;
 
-        public HomeController(ApplicationDbContext ctx)
+        public HomeController(QtfDbContext ctx)
         {
             _context = ctx;
         }

@@ -2,6 +2,9 @@
 
 namespace QTF.Data.Models
 {
+    /// <summary>
+    /// For the tasks of type Quiz - link to the specific Quiz.
+    /// </summary>
     public class TaskQuizRecord
     {
         public int Id { get; set; }
@@ -12,6 +15,6 @@ namespace QTF.Data.Models
 
         [ForeignKey("QuestTask")]
         public int QuestTaskId { get; set; }
-        public QuestTask QuestTask { get; set; }
+        public QtfTask QtfTask { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace QTF.Data.Models
 
         public ICollection<QuestRecord> QuestRecords { get; set; }
 
-        public ICollection<QuestTask> QuestTasks { get; set; }
+        public ICollection<QtfTask> Tasks { get; set; }
     }
 }

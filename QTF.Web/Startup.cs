@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using QTF.Web.Data;
 using QTF.Data.Models;
 using QTF.Web.Services;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +13,7 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
+using QTF.Data;
 
 namespace QTF.Web
 {
@@ -33,11 +29,11 @@ namespace QTF.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<QtfDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<QtfDbContext>()
                 .AddDefaultTokenProviders();
 
             // Add application services.
