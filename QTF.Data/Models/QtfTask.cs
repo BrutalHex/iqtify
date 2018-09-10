@@ -31,6 +31,11 @@
         /// <summary>
         /// There is a specific code to check the result of the task
         /// </summary>
-        CustomCode
+        CustomCode,
+
+        /// <summary>
+        /// Any answer to this task is correct - just need to submit something
+        /// </summary>
+        AnswerNotEmpty
     }
 }

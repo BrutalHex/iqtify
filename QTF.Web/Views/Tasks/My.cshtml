@@ -1,0 +1,25 @@
+﻿@model IEnumerable<QTF.Data.Models.QtfTask>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            @*<th>Status</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
