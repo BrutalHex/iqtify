@@ -11,17 +11,15 @@ namespace QTF.Data
         {
         }
 
-        public DbSet<Quiz> Quizes { get; set; }
-        public DbSet<Question> Questions { get; set; }
-        public DbSet<QuestionAnswer> Answers { get; set; }
-        public DbSet<QtfTask> QtfTasks { get; set; }
+        public DbSet<QuestTaskAnswer> Answers { get; set; }
+        public DbSet<QuestTask> QuestTasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             // set internal name of the task to be unique
-            builder.Entity<QtfTask>().HasAlternateKey(t => t.InternalName);
+            builder.Entity<QuestTask>().HasAlternateKey(t => t.InternalName);
         }
     }
 }

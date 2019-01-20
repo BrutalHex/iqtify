@@ -1,4 +1,4 @@
-namespace QTF.Data.Models
+namespace QTF.Data.ViewModels
 {
     public class ErrorViewModel
     {
