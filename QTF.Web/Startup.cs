@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QTF.Data;
+using QTF.Data.Models;
 
 namespace QTF.Web
 {
@@ -33,15 +34,18 @@ namespace QTF.Web
             services.AddDbContext<QtfDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddUserManager<UserManager<ApplicationUser>>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<QtfDbContext>();
+                .AddEntityFrameworkStores<QtfDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -60,6 +64,8 @@ namespace QTF.Web
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            //var db = new DbInitializer(roleManager);
 
             app.UseMvc(routes =>
             {
