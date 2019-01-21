@@ -17,11 +17,14 @@ namespace QTF.Data
         public DbSet<QuestRecord> QuestRecords { get; set; }
         public DbSet<UserAnswer> UserAnswers { get; set; }
 
+        public DbSet<Metadata> Metadata { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             // set internal name of the task to be unique
+            builder.Entity<Quest>().HasAlternateKey(t => t.InternalName);
             builder.Entity<QuestTask>().HasAlternateKey(t => t.InternalName);
         }
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QTF.Data;
 
 namespace QTF.Data.Migrations
 {
     [DbContext(typeof(QtfDbContext))]
-    partial class QtfDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190121094337_UniqueInternalName")]
+    partial class UniqueInternalName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,23 +188,6 @@ namespace QTF.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("QTF.Data.Models.Metadata", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Category");
-
-                    b.Property<string>("Key");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Metadata");
                 });
 
             modelBuilder.Entity("QTF.Data.Models.Quest", b =>
