@@ -1,4 +1,4 @@
-﻿@model QTF.Data.Models.QuestTask
+﻿@model QTF.Data.Models.Quest
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>QuestTask</h4>
+    <h4>Quest</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -15,12 +15,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Content)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.InternalName)
@@ -35,28 +29,10 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.TaskType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TaskType)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Quest)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Quest.Id)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Creator)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Creator.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Order)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Order)
         </dd>
     </dl>
 </div>

@@ -36,7 +36,7 @@ namespace QTF.Data.Models
         /// <summary>
         /// Possible answers to this question. Icluding correct and incorrect.
         /// </summary>
-        public ICollection<QuestTaskAnswer> Answers { get; set; }
+        public ICollection<TaskAnswer> Answers { get; set; }
 
         public ICollection<UserAnswer> UserAnswers { get; set; }
     }

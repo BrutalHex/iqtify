@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QTF.Data.Models.QuestTask>
+﻿@model IEnumerable<QTF.Data.Models.Quest>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,25 +16,13 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.InternalName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TaskType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quest)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Creator)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Order)
             </th>
             <th></th>
         </tr>
@@ -46,25 +34,13 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.InternalName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TaskType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quest.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Creator.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

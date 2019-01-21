@@ -290,7 +290,7 @@ namespace QTF.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private float RateAnswer(IEnumerable<string> submittedAnswers, ICollection<QuestTaskAnswer> realAnswers)
+        private float RateAnswer(IEnumerable<string> submittedAnswers, ICollection<TaskAnswer> realAnswers)
         {
             float correctAnswersCount = 0;
             foreach (var sa in submittedAnswers)

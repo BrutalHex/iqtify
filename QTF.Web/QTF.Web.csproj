@@ -6,6 +6,22 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\Tasks\Create.cshtml" />
+    <Content Remove="Views\Tasks\Delete.cshtml" />
+    <Content Remove="Views\Tasks\Details.cshtml" />
+    <Content Remove="Views\Tasks\Edit.cshtml" />
+    <Content Remove="Views\Tasks\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Tasks\Create.cshtml" />
+    <None Include="Views\Tasks\Delete.cshtml" />
+    <None Include="Views\Tasks\Details.cshtml" />
+    <None Include="Views\Tasks\Edit.cshtml" />
+    <None Include="Views\Tasks\Index.cshtml" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0-preview-18579-0056" />
@@ -13,6 +29,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0-preview-18579-0056" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0-preview.18572.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0-preview.18572.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGenerators.Mvc" Version="2.2.1" />
   </ItemGroup>
 
 

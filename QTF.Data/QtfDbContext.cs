@@ -11,8 +11,11 @@ namespace QTF.Data
         {
         }
 
-        public DbSet<QuestTaskAnswer> Answers { get; set; }
+        public DbSet<TaskAnswer> Answers { get; set; }
         public DbSet<QuestTask> QuestTasks { get; set; }
+        public DbSet<Quest> Quests { get; set; }
+        public DbSet<QuestRecord> QuestRecords { get; set; }
+        public DbSet<UserAnswer> UserAnswers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

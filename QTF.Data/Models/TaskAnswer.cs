@@ -6,7 +6,7 @@ namespace QTF.Data.Models
     /// <summary>
     /// Pre-defined answers to the tasks in the system
     /// </summary>
-    public class QuestTaskAnswer
+    public class TaskAnswer
     {
         public int Id { get; set; }
         public string Value { get; set; }

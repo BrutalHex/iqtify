@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QTF.Data;
 
 namespace QTF.Data.Migrations
 {
     [DbContext(typeof(QtfDbContext))]
-    partial class QtfDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190121090107_AddQuests")]
+    partial class AddQuests
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,7 +266,7 @@ namespace QTF.Data.Migrations
                     b.ToTable("QuestTasks");
                 });
 
-            modelBuilder.Entity("QTF.Data.Models.TaskAnswer", b =>
+            modelBuilder.Entity("QTF.Data.Models.QuestTaskAnswer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -385,7 +387,7 @@ namespace QTF.Data.Migrations
                         .HasForeignKey("QuestId");
                 });
 
-            modelBuilder.Entity("QTF.Data.Models.TaskAnswer", b =>
+            modelBuilder.Entity("QTF.Data.Models.QuestTaskAnswer", b =>
                 {
                     b.HasOne("QTF.Data.Models.QuestTask", "QuestTask")
                         .WithMany("Answers")

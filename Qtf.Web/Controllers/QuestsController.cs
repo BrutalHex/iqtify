@@ -10,23 +10,23 @@ using QTF.Data.Models;
 
 namespace QTF.Web.Obsolete.Controllers
 {
-    public class TasksController : Controller
+    public class QuestsController : Controller
     {
         private readonly QtfDbContext _context;
 
-        public TasksController(QtfDbContext context)
+        public QuestsController(QtfDbContext context)
         {
             _context = context;
         }
 
-        // GET: Tasks
+        // GET: Quests
         public async Task<IActionResult> Index()
         {
-            var qtfDbContext = _context.QuestTasks.Include(q => q.Creator).Include(q => q.Quest);
+            var qtfDbContext = _context.Quests.Include(q => q.Creator);
             return View(await qtfDbContext.ToListAsync());
         }
 
-        // GET: Tasks/Details/5
+        // GET: Quests/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,45 +34,42 @@ namespace QTF.Web.Obsolete.Controllers
                 return NotFound();
             }
 
-            var questTask = await _context.QuestTasks
+            var quest = await _context.Quests
                 .Include(q => q.Creator)
-                .Include(q => q.Quest)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (questTask == null)
+            if (quest == null)
             {
                 return NotFound();
             }
 
-            return View(questTask);
+            return View(quest);
         }
 
-        // GET: Tasks/Create
+        // GET: Quests/Create
         public IActionResult Create()
         {
             ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["QuestId"] = new SelectList(_context.Quests, "Id", "Id");
             return View();
         }
 
-        // POST: Tasks/Create
+        // POST: Quests/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Content,InternalName,Description,TaskType,QuestId,CreatorId,Order")] QuestTask questTask)
+        public async Task<IActionResult> Create([Bind("Id,Title,InternalName,Description,CreatorId")] Quest quest)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(questTask);
+                _context.Add(quest);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id", questTask.CreatorId);
-            ViewData["QuestId"] = new SelectList(_context.Quests, "Id", "Id", questTask.QuestId);
-            return View(questTask);
+            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id", quest.CreatorId);
+            return View(quest);
         }
 
-        // GET: Tasks/Edit/5
+        // GET: Quests/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,24 +77,23 @@ namespace QTF.Web.Obsolete.Controllers
                 return NotFound();
             }
 
-            var questTask = await _context.QuestTasks.FindAsync(id);
-            if (questTask == null)
+            var quest = await _context.Quests.FindAsync(id);
+            if (quest == null)
             {
                 return NotFound();
             }
-            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id", questTask.CreatorId);
-            ViewData["QuestId"] = new SelectList(_context.Quests, "Id", "Id", questTask.QuestId);
-            return View(questTask);
+            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id", quest.CreatorId);
+            return View(quest);
         }
 
-        // POST: Tasks/Edit/5
+        // POST: Quests/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,InternalName,Description,TaskType,QuestId,CreatorId,Order")] QuestTask questTask)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,InternalName,Description,CreatorId")] Quest quest)
         {
-            if (id != questTask.Id)
+            if (id != quest.Id)
             {
                 return NotFound();
             }
@@ -106,12 +102,12 @@ namespace QTF.Web.Obsolete.Controllers
             {
                 try
                 {
-                    _context.Update(questTask);
+                    _context.Update(quest);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuestTaskExists(questTask.Id))
+                    if (!QuestExists(quest.Id))
                     {
                         return NotFound();
                     }
@@ -122,12 +118,11 @@ namespace QTF.Web.Obsolete.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id", questTask.CreatorId);
-            ViewData["QuestId"] = new SelectList(_context.Quests, "Id", "Id", questTask.QuestId);
-            return View(questTask);
+            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id", quest.CreatorId);
+            return View(quest);
         }
 
-        // GET: Tasks/Delete/5
+        // GET: Quests/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,32 +130,31 @@ namespace QTF.Web.Obsolete.Controllers
                 return NotFound();
             }
 
-            var questTask = await _context.QuestTasks
+            var quest = await _context.Quests
                 .Include(q => q.Creator)
-                .Include(q => q.Quest)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (questTask == null)
+            if (quest == null)
             {
                 return NotFound();
             }
 
-            return View(questTask);
+            return View(quest);
         }
 
-        // POST: Tasks/Delete/5
+        // POST: Quests/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var questTask = await _context.QuestTasks.FindAsync(id);
-            _context.QuestTasks.Remove(questTask);
+            var quest = await _context.Quests.FindAsync(id);
+            _context.Quests.Remove(quest);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool QuestTaskExists(int id)
+        private bool QuestExists(int id)
         {
-            return _context.QuestTasks.Any(e => e.Id == id);
+            return _context.Quests.Any(e => e.Id == id);
         }
     }
 }
