@@ -1,30 +1,42 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using QTF.Data.Models;
+using System.Linq;
 
 namespace QTF.Data
 {
     public class DbInitializer
     {
-        private RoleManager<IdentityRole> _roleManager;
+        //private RoleManager<IdentityRole> _roleManager;
         private IServiceProvider _serviceProvider;
-
-        public DbInitializer(RoleManager<IdentityRole> roleManager)
-        {
-            _roleManager = roleManager;
-        }
+        private QtfDbContext _db;
 
         public DbInitializer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            //var context = serviceProvider.GetRequiredService<QtfDbContext>();
+            _db = serviceProvider.GetRequiredService<QtfDbContext>();
         }
 
-        public void Initialize()
+        public async Task InitializeAsync()
         {
-            CreateAdmin().Wait();
+            var schemaVersion = await _db.Metadata.SingleOrDefaultAsync(_ =>
+                _.Category == MetaCategory.DatabaseStatus &&
+                _.Key == "SchemaVersion");
+
+            if (schemaVersion?.Value != "1")
+            {
+                CreateAdmin().Wait();
+                _db.Metadata.Add(new Metadata
+                {
+                    Category = MetaCategory.DatabaseStatus,
+                    Key = "SchemaVersion",
+                    Value = "1"
+                });
+                await _db.SaveChangesAsync();
+            }
         }
 
         private async Task CreateAdmin()
@@ -48,7 +60,7 @@ namespace QTF.Data
             //Here you could create a super user who will maintain the web app
             var adminUser = new ApplicationUser
             {
-                UserName = "admin",
+                UserName = "admin@admin.com",
                 Email = "admin@admin.com"
             };
 

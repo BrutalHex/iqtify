@@ -20,7 +20,7 @@ namespace QTF.Web
                 try
                 {
                     var dbInitializer = new DbInitializer(services);
-                    dbInitializer.Initialize();
+                    dbInitializer.InitializeAsync().Wait();
                 }
                 catch (Exception ex)
                 {
