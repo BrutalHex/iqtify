@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,13 @@ namespace QTF.Web.Obsolete.Controllers
     public class QuestsController : Controller
     {
         private readonly QtfDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public QuestsController(QtfDbContext context)
+        public QuestsController(QtfDbContext context,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Quests
@@ -30,7 +34,7 @@ namespace QTF.Web.Obsolete.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Start(int? id)
+        public async Task<IActionResult> Play(int? id)
         {
             if (id == null)
             {
@@ -76,7 +80,6 @@ namespace QTF.Web.Obsolete.Controllers
         // GET: Quests/Create
         public IActionResult Create()
         {
-            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -85,15 +88,16 @@ namespace QTF.Web.Obsolete.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,InternalName,Description,CreatorId")] Quest quest)
+        public async Task<IActionResult> Create([Bind("Id,Title,InternalName,Description")] Quest quest)
         {
             if (ModelState.IsValid)
             {
+                quest.CreatorId = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
                 _context.Add(quest);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id", quest.CreatorId);
+            
             return View(quest);
         }
 
@@ -110,7 +114,7 @@ namespace QTF.Web.Obsolete.Controllers
             {
                 return NotFound();
             }
-            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id", quest.CreatorId);
+            
             return View(quest);
         }
 
@@ -119,7 +123,7 @@ namespace QTF.Web.Obsolete.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,InternalName,Description,CreatorId")] Quest quest)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,InternalName,Description")] Quest quest)
         {
             if (id != quest.Id)
             {
@@ -146,7 +150,7 @@ namespace QTF.Web.Obsolete.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id", quest.CreatorId);
+            
             return View(quest);
         }
 
