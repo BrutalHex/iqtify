@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QTF.Data;
 using QTF.Data.Models;
+using QTF.Data.ViewModels;
 
 namespace QTF.Web.Obsolete.Controllers
 {
@@ -26,6 +27,31 @@ namespace QTF.Web.Obsolete.Controllers
         {
             var qtfDbContext = _context.Quests.Include(q => q.Creator);
             return View(await qtfDbContext.ToListAsync());
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Start(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var quest = await _context.Quests
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (quest == null)
+            {
+                return NotFound();
+            }
+
+            var firstTask = _context.QuestTasks
+                .Include(_=>_.Answers)
+                .SingleOrDefault(_ => _.Order == 1);
+            if (firstTask != null)
+                return View(new TaskViewModel(firstTask));
+
+            //todo: define behavior if no first task
+            return View(nameof(Details), quest);
         }
 
         // GET: Quests/Details/5

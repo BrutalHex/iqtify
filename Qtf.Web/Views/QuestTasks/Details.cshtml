@@ -1,0 +1,66 @@
+﻿@model QTF.Data.Models.QuestTask
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>QuestTask</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.InternalName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.InternalName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TaskType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Quest)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Quest.InternalName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Creator)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Creator.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Order)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Order)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,17 @@
+﻿@model QTF.Data.ViewModels.TaskViewModel
+
+<h2>@Model.Title</h2>
+
+<p>
+    @Model.Content
+</p>
+
+@if (Model.TaskType == TaskType.MultipleChoiceAnswer)
+{
+    var @false = false;
+    foreach (var answer in Model.Answers)
+    {
+        @Html.CheckBoxFor(model => @false, answer.Id)
+        @answer.Value
+    }
+}

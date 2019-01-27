@@ -1,0 +1,42 @@
+﻿@model QTF.Data.Models.TaskAnswer
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TaskAnswer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Value)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Value)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.QuestTask)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.QuestTask.InternalName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCorrect)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsCorrect)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomReaction)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomReaction)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
