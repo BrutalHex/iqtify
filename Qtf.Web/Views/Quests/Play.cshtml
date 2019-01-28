@@ -1,18 +1,27 @@
 ﻿@model QTF.Data.ViewModels.TaskViewModel
 
-<h2>@Model.Title</h2>
+<div class="panel">
+    <form asp-antiforgery="true" asp-action="Play">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <input hidden asp-for="TaskId" value="@Model.TaskId" />
 
-<p>
-    @Model.Content
-</p>
+        <h2>@Model.Title</h2>
 
-@if (Model.TaskType == TaskType.MultipleChoiceAnswer)
-{
-    var @false = false;
-    foreach (var answer in Model.Answers)
-    {
-        @Html.CheckBoxFor(model => @false, answer.Id)
-        @answer.Value
+        <p>
+            @Model.Content
+        </p>
+
+        @if (Model.TaskType == TaskType.MultipleChoiceAnswer)
+        {
+            foreach (var answer in Model.Answers)
+            {
+                <input type="checkbox" name="answers" value="@answer.Id" />
+                @answer.Value
+                <br />
+            }
+        }
+
         <br />
-    }
-}
+        <input type="submit" class="btn btn-primary" />
+        </form>
+</div>

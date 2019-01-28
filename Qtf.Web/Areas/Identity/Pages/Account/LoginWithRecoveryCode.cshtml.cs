@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using QTF.Data.Models;
 
-namespace QTF.Web.Obsolete.Areas.Identity.Pages.Account
+namespace QTF.Web.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginWithRecoveryCodeModel : PageModel

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace QTF.Web.Obsolete.Areas.Identity.Pages.Account.Manage
+namespace QTF.Web.Areas.Identity.Pages.Account.Manage
 {
     public static class ManageNavPages
     {
@@ -32,7 +32,7 @@ namespace QTF.Web.Obsolete.Areas.Identity.Pages.Account.Manage
         {
             var activePage = viewContext.ViewData["ActivePage"] as string
                 ?? System.IO.Path.GetFileNameWithoutExtension(viewContext.ActionDescriptor.DisplayName);
-            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : null;
+            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "nav-link active" : "nav-link";
         }
     }
 }

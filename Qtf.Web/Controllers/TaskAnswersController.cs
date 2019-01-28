@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using QTF.Data;
 using QTF.Data.Models;
 
-namespace QTF.Web.Obsolete.Controllers
+namespace QTF.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class TaskAnswersController : Controller

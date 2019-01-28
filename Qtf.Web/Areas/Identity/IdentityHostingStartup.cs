@@ -8,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using QTF.Data;
 using QTF.Data.Models;
 
-[assembly: HostingStartup(typeof(QTF.Web.Obsolete.Areas.Identity.IdentityHostingStartup))]
-namespace QTF.Web.Obsolete.Areas.Identity
+[assembly: HostingStartup(typeof(QTF.Web.Areas.Identity.IdentityHostingStartup))]
+namespace QTF.Web.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {

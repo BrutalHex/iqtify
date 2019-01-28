@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QTF.Data.Models;
 
-namespace QTF.Web.Obsolete.Areas.Identity.Pages.Account.Manage
+namespace QTF.Web.Areas.Identity.Pages.Account.Manage
 {
     public class DownloadPersonalDataModel : PageModel
     {
