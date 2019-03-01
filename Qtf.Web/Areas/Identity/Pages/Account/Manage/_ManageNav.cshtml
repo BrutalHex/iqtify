@@ -1,4 +1,4 @@
-﻿@inject SignInManager<ApplicationUser> SignInManager
+﻿@inject SignInManager<QTF.Domain.Entity.UserBundle.ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

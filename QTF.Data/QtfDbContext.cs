@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using QTF.Data.Infra;
 using QTF.Data.Models;
+using QTF.Domain.Entity.AnswereBundle;
+using QTF.Domain.Entity.PublicBundle;
+using QTF.Domain.Entity.QuestBundle;
+using QTF.Domain.Entity.UserBundle;
 
 namespace QTF.Data
 {
@@ -21,7 +26,13 @@ namespace QTF.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            
+
             base.OnModelCreating(builder);
+
+            //with this there is no need property definitions like public DbSet<UserAnswer> UserAnswers { get; set; }
+            builder.AddEntityConfigurationsFromAssembly(GetType().Assembly);
+
 
             // set internal name of the task to be unique
             builder.Entity<Quest>().HasAlternateKey(t => t.InternalName);

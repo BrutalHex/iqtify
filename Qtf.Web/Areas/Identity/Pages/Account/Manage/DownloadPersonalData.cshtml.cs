@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QTF.Data.Models;
+using QTF.Domain.Entity.UserBundle;
 
 namespace QTF.Web.Areas.Identity.Pages.Account.Manage
 {

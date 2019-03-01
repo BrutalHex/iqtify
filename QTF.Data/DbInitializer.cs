@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using QTF.Data.Models;
 using System.Linq;
+using QTF.Domain.Entity.PublicBundle;
+using QTF.Domain.Entity.UserBundle;
 
 namespace QTF.Data
 {

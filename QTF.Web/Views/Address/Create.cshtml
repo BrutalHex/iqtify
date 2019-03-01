@@ -1,0 +1,51 @@
+﻿@model QTF.Dtos.UserBundle.AddressDto
+
+@{
+    ViewData["Title"] = "Create";
+   
+}
+
+<h1>Create</h1>
+
+<h4>Address</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Key" class="form-control" />
+            <div class="form-group">
+                <label asp-for="PostalCode" class="control-label"></label>
+                <input asp-for="PostalCode" class="form-control" />
+
+                <span asp-validation-for="PostalCode" class="text-danger"></span> 
+                <br />
+                <span class="blockquote">4 digits only</span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Path" class="control-label"></label>
+                <input asp-for="Path" class="form-control" />
+                <span asp-validation-for="Path" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserKey" class="control-label"></label>
+
+
+                @Html.DropDownList("UserKey", (List<SelectListItem>)ViewBag.Users, new { @class = "form-control" })
+
+                <span asp-validation-for="UserKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

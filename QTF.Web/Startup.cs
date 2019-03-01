@@ -9,6 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QTF.Data;
 using QTF.Data.Models;
+using AutoMapper;
+using Traveller.Service.Infra;
+using QTF.Domain.Entity.UserBundle;
+using QTF.Data.Abstraction;
+using QTF.Data.Infra;
 
 namespace QTF.Web
 {
@@ -21,6 +26,26 @@ namespace QTF.Web
 
         public IConfiguration Configuration { get; }
 
+
+        private ServiceProvider RegisterExtraServices(IServiceCollection services)
+        {
+            /*
+             * this is not good way !!!!!!!!!!!!!!!!!!!
+             * 
+             */
+            services.AddScoped<DbContext, QtfDbContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //registering repository  
+            var repoDi = new QTF.Repository.Infra.RegisterRepositories(services);
+            //registering services
+            var repoService = new QTF.Service.Infra.RegisterServices(services);
+
+            return services.BuildServiceProvider();
+
+        }
+
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,9 +56,23 @@ namespace QTF.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<QtfDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperConfiguration());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+          
+            services.AddDbContext<QtfDbContext>
+               (options =>
+               options.UseLazyLoadingProxies().
+                       UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("QTF.Data")));
+
+
+
+
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddUserManager<UserManager<ApplicationUser>>()
@@ -42,6 +81,8 @@ namespace QTF.Web
                 .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            var sp = RegisterExtraServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

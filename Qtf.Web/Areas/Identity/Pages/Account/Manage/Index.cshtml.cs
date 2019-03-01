@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using QTF.Data.Models;
+using QTF.Domain.Entity.UserBundle;
 
 namespace QTF.Web.Areas.Identity.Pages.Account.Manage
 {

@@ -11,7 +11,7 @@
             @Model.Content
         </p>
 
-        @if (Model.TaskType == TaskType.MultipleChoiceAnswer)
+        @if (Model.TaskType == QTF.Domain.Entity.QuestBundle.TaskType.MultipleChoiceAnswer)
         {
             foreach (var answer in Model.Answers)
             {

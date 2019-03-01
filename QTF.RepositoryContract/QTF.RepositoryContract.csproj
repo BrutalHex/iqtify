@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Infra\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QTF.Data\QTF.Data.csproj" />
+  </ItemGroup>
+
+</Project>

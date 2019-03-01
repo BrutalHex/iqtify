@@ -14,6 +14,9 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 using QTF.Data;
+using QTF.Data.Abstraction;
+using QTF.Data.Infra;
+using QTF.Domain.Entity.UserBundle;
 
 namespace QTF.Web
 {
@@ -25,6 +28,23 @@ namespace QTF.Web
         }
 
         public IConfiguration Configuration { get; }
+
+        private ServiceProvider RegisterExtraServices(IServiceCollection services)
+        {
+            /*
+             * this is not good way !!!!!!!!!!!!!!!!!!!
+             * 
+             */
+           
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //registering repository  
+            var repoDi = new QTF.Repository.Infra.RegisterRepositories(services);
+            //registering services
+            var repoService = new QTF.Service.Infra.RegisterServices(services);
+
+            return services.BuildServiceProvider();
+
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -61,6 +81,9 @@ namespace QTF.Web
             });
 
             services.AddScoped<IQuestionService, QuestionService>();
+
+            var sp = RegisterExtraServices(services);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

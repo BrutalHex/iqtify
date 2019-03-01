@@ -1,4 +1,5 @@
 ﻿using QTF.Data.Models;
+using QTF.Domain.Entity.QuestBundle;
 
 namespace QTF.ViewModels
 {

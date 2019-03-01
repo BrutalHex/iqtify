@@ -1,4 +1,6 @@
 ﻿using QTF.Data.Models;
+using QTF.Domain.Entity.AnswereBundle;
+using QTF.Domain.Entity.QuestBundle;
 using System.Collections.Generic;
 
 namespace QTF.Data.ViewModels

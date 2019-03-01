@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using QTF.Data.Models;
+using QTF.Domain.Entity.UserBundle;
+
 namespace QTF.Web.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePasswordModel : PageModel

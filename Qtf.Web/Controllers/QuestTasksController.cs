@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QTF.Data;
 using QTF.Data.Models;
+using QTF.Domain.Entity.QuestBundle;
 
 namespace QTF.Web.Controllers
 {
